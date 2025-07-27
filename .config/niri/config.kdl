@@ -1,0 +1,511 @@
+
+//  █▀▀ ▄▀█ ▀█    █▄░█ █ █▀█ █    █▀▀ █▀█ █▄░█ █▀▀ █ █▀▀
+//  █▄█ █▀█ █▄    █░▀█ █ █▀▄ █    █▄▄ █▄█ █░▀█ █▀░ █ █▄█
+// ______________________________________________________
+
+// ----------------------------------
+//  Exec on Startup
+// ----------------------------------
+spawn-at-startup "waybar"
+spawn-at-startup "mako"
+spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "sh" "-c" "~/.config/waybar/scripts/wallpaper.sh"
+spawn-at-startup "pkill" "iwgtk"
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+spawn-at-startup "sh" "-c" "~/scripts/delete_cliphist.sh"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-at-startup "sh" "-c" "~/scripts/hyprland/battery_notify.sh"
+
+//  client side rendering
+// ----------------------------------
+prefer-no-csd
+
+// ----------------------------------
+//  OVERRIDE Environment Variables
+// ----------------------------------
+environment {
+    // PATH "/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/home/gaz/.cargo/bin:/home/gaz/.local/bin:/home/gaz/.bun/bin:/home/gaz/.local/share/nvim/mason/bin"
+    DISPLAY ":0"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    // XDG_CURRENT_DESKTOP "niri"
+}
+
+screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+
+cursor {
+    xcursor-theme "LyraB"
+    xcursor-size 24
+    hide-when-typing
+    hide-after-inactive-ms 2000
+}
+
+overview {
+    zoom 0.35
+    backdrop-color "#01090e"
+
+    workspace-shadow {
+        // off
+        softness 40
+        spread 10
+        offset x=0 y=10
+        color "#00000050"
+    }
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+
+
+
+// ----------------------------------
+//  Devices
+// ----------------------------------
+input {
+    keyboard {
+        xkb {
+            // remapping keys (for complete list of options run 'xkbcli list')
+            // options "caps:escape,altwin:swap_lalt_lwin,ctrl:swap_ralt_rctl"
+            options "caps:escape"
+        }
+
+        repeat-delay 180
+        repeat-rate 35
+
+        // Niri can remember the keyboard layout globally (the default) or per-window.
+        // - "global" - layout change is global for all windows.
+        // - "window" - layout is tracked for each window individually.
+        // track-layout "global"
+    }
+
+    touchpad {
+	//off
+        tap
+        dwt
+        natural-scroll
+        accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "two-finger"
+        // tap-button-map "left-middle-right"
+        // click-method "clickfinger"
+        // left-handed
+        // disabled-on-external-mouse
+        // middle-emulation
+    }
+
+
+    mouse {
+        // off
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "no-scroll"
+        // left-handed
+        // middle-emulation
+    }
+
+    touch {
+        map-to-output "eDP-1"
+    }
+
+    // By default, niri will take over the power button to make it sleep instead of power off.
+    // disable-power-key-handling
+    // warp-mouse-to-focus
+    focus-follows-mouse max-scroll-amount="70%"
+    workspace-auto-back-and-forth
+}
+
+// You can configure outputs by their name, which you can find by running `niri msg outputs` while inside a niri instance.
+output "eDP-1" {
+    // off
+    scale 1.0
+    // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
+    transform "normal"
+    mode "1920x1080@59.999"
+    position x=1280 y=0
+    background-color "#000000"
+}
+
+
+
+
+// ----------------------------------
+//  Layout Config
+// ----------------------------------
+layout {
+    gaps 8
+    background-color "transparent"
+    center-focused-column "never"
+    always-center-single-column
+    default-column-width { proportion 0.85; }
+    // default-column-width { }
+    // values for "switch-preset-column-width" (Mod+R).
+    preset-column-widths {
+        // proportion 0.3
+        proportion 0.5
+        proportion 0.85
+        proportion 1.0
+        // fixed 1920
+    }
+
+    focus-ring {
+        // off
+        width 2
+        active-color "#6a6a6a"
+        // inactive-color "#505050"
+        // active-gradient from="#000022" to="#80c8ff" angle=45
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    border {
+        // off
+        width 1
+        active-color "#00000000"
+        inactive-color "#00000000"
+        // active-gradient from="#ffbb66" to="#ffc880" angle=45 relative-to="workspace-view"
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    struts {
+        left 12
+        right 12
+        top 2
+        bottom 12
+    }
+
+}
+
+
+
+
+// ----------------------------------
+//  Animation settings
+// ----------------------------------
+animations {
+    // off
+    // slowdown 3.0
+
+    workspace-switch {
+        // off
+        // spring damping-ratio=0.85 stiffness=600 epsilon=0.0001
+        // duration-ms 300
+        // curve "ease-out-expo"
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    horizontal-view-movement {
+        // off
+        // spring damping-ratio=0.85 stiffness=600 epsilon=0.0001
+        // curve "ease-out-cubic"
+        // duration-ms 300
+        // curve "ease-out-expo"
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    // Window opening animation. Note that this one has different defaults.
+    window-open {
+        // off
+        // duration-ms 200
+        // curve "ease-out-expo"
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+     window-close {
+        // duration-ms 200
+        // curve "ease-out-expo"
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-movement {
+        // duration-ms 300
+        // curve "ease-out-expo"
+        spring damping-ratio=1.2 stiffness=800 epsilon=0.0001
+    }
+
+    window-resize {
+        duration-ms 300
+        curve "ease-out-expo"
+        // spring damping-ratio=1.2 stiffness=800 epsilon=0.0001
+    }
+
+    config-notification-open-close {
+        // off
+        // spring damping-ratio=0.6 stiffness=1000 epsilon=0.001
+    }
+
+    screenshot-ui-open {
+        duration-ms 300
+        curve "ease-out-quad"
+    }
+
+    // overview-open-close {
+    //     spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    // }
+}
+
+
+
+
+// ----------------------------------
+//  Global Window Rules
+// ----------------------------------
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+    draw-border-with-background false
+    opacity 1.0
+    max-width 1878
+
+    // example matches :
+    // ------------------------------
+    // match app-id="org.myapp.MyApp" title="My Cool App"
+    // match title="Firefox"
+    // match app-id="Alacritty"
+    // match is-active=true
+    // match is-focused=false
+    // match is-active-in-column=true
+    // match at-startup=true
+
+    // You can also add exclude directives which have the same properties.
+    // Both app-id and title are regular expressions. Raw KDL strings are helpful here.
+    // ------------------------------
+    // exclude app-id=r#"\.unwanted\."#
+
+    // more available options :
+    // ------------------------------
+    // default-column-width { proportion 0.75; }
+    // open-on-workspace "chat"
+    // open-maximized true
+    // open-fullscreen true
+    // block-out-from "screencast"
+    // block-out-from "screen-capture"
+    // min-width 100
+    // max-width 200
+    // min-height 300
+    // max-height 300
+    // focus-ring {}
+    // border {}
+}
+
+// ----------------------------------
+//  Window Rules
+// ----------------------------------
+window-rule {
+    match is-active=true
+    opacity 1.0
+}
+
+window-rule {
+    match app-id="mpv"
+    open-fullscreen true
+}
+
+window-rule {
+    match app-id="org.twosheds.iwgtk"
+    // default-column-width { proportion 0.3; }
+    open-floating true
+}
+
+window-rule {
+    match app-id="viewnior"
+    open-floating true
+}
+
+window-rule {
+    match app-id="nemo"
+    open-floating true
+    min-width 1160
+    min-height 630
+    default-floating-position x=380 y=180 relative-to="top-left"
+}
+
+window-rule {
+    match app-id="iwgtk"
+    open-floating true
+    min-width 580
+    min-height 600
+    default-floating-position x=640 y=200 relative-to="top-left"
+}
+
+window-rule {
+    match title="btop"
+    open-floating true
+    min-width 1260
+    min-height 664
+    default-floating-position x=320 y=170 relative-to="top-left"
+}
+
+window-rule {
+    match title="alacritty_float"
+    open-floating true
+    default-column-width { proportion 0.61; }
+    default-window-height { fixed 604; }
+    default-floating-position x=370 y=190 relative-to="top-left"
+}
+
+window-rule {
+    match title="Oklch Color Picker"
+    default-column-width { proportion 0.5; }
+    default-window-height { fixed 600; }
+    open-floating true
+    default-floating-position x=450 y=200 relative-to="top-left"
+}
+
+// layer-rule {
+//     match namespace="notification"
+//     // animation {
+//     //     duration-ms 300
+//     //     curve "ease-out-expo"
+//     // }
+// }
+
+// layer-rule {
+//     match namespace="swww-daemon"
+//     place-within-backdrop true
+// }
+
+layer-rule {
+    match namespace="wofi"
+    baba-is-float true
+}
+// declare workspaces
+// workspace "browser"
+// workspace "chat"
+// window-rule {
+    // match app-id="org.telegram.desktop"
+    // open-maximized true
+    // open-on-workspace "chat"
+// }
+
+
+
+
+// ----------------------------------
+//  Keybinds
+// ----------------------------------
+binds {
+    // Most actions that you can bind here can also be invoked programmatically with `niri msg action do-something`.
+
+    // shows a list of important hotkeys.
+    // Mod+Shift+Slash { show-hotkey-overlay; }
+
+    Mod+Q                       repeat=false    { close-window; }
+    Mod+Shift+Q                 repeat=true     { close-window; }
+    Mod+Shift+M                 repeat=false    { quit; }
+    // Mod+Shift+P { power-off-monitors; }
+
+    Mod+Shift+Return            repeat=true     { spawn "sh" "-c" "alacritty -t alacritty_float"; }
+    Mod+T                       repeat=true     { spawn "sh" "-c" "alacritty -t alacritty_float"; }
+    Mod+Return                  repeat=false    { spawn "alacritty"; }
+    Mod+Space                   repeat=false    { spawn "sh" "-c" "pkill wofi || wofi"; }
+    alt+space                   repeat=false    { spawn "sh" "-c" "pkill wofi || ~/scripts/wofi_clipboard.sh"; }
+    Mod+c                       repeat=false    { spawn "google-chrome-stable" "--ozone-platform=wayland"; }
+    Mod+Period                  repeat=false    { spawn "sh" "-c" "pkill wofi || ~/scripts/wofi-emoji.sh"; }
+    Mod+Shift+I                 repeat=false    { spawn "sh" "-c" "pkill wofi || ~/scripts/wofi_socials.sh"; }
+    Super+P                     repeat=false    { spawn "~/scripts/wofi_logout_niri.sh"; }
+    Super+E                     repeat=false    { spawn "nemo" "/home/gaz/Downloads"; }
+    Super+Shift+E               repeat=false    { spawn "nemo" "/home/gaz/Desktop/workspace/webd/"; }
+    Super+W                     repeat=false    { spawn "firefox-nightly"; }
+    Super+Shift+W               repeat=false    { spawn "firefox-nightly" "--private-window"; }
+    Super+N                     repeat=false    { spawn "nmtui"; }
+    Super+Escape                repeat=false    { spawn "sh" "-c" "pkill btop || alacritty -t btop -e btop"; }
+    Super+B                     repeat=false    { spawn "sh" "-c" "~/scripts/bluetooth_particular.sh"; }
+    Super+Ctrl+B                repeat=false    { spawn "sh" "-c" "~/scripts/bluetooth-battery.sh"; }
+    Super+Shift+C               repeat=false    { spawn "sh" "-c" "~/scripts/color-picker.sh"; }
+    Super+Shift+R               repeat=false    { spawn "sh" "-c" "~/scripts/niri/toggle-key-remaps.sh"; }
+
+    Print                       repeat=false    { screenshot; }
+    Mod+Print                   repeat=false    { screenshot-screen; }
+    Mod+Shift+Print             repeat=false    { screenshot-window; }
+
+    Mod+F                       repeat=false    { switch-preset-column-width; }
+    Mod+R                       repeat=false    { maximize-column; }
+    Mod+Shift+F                 repeat=false    { fullscreen-window; }
+    Mod+Shift+A                 repeat=false    { toggle-windowed-fullscreen; }
+    Mod+Ctrl+C                  repeat=false    { center-column; }
+    Mod+V                       repeat=false    { toggle-window-floating; }
+    Mod+Z                       repeat=false    { toggle-window-rule-opacity; }
+    Mod+a                       repeat=false    { toggle-overview; }
+
+    Mod+Shift+S                 repeat=true     { consume-window-into-column; }
+    Mod+S                       repeat=true     { expel-window-from-column; }
+    Mod+Ctrl+H                   repeat=true     { consume-or-expel-window-left; }
+    Mod+Ctrl+L                   repeat=true     { consume-or-expel-window-right; }
+
+    Mod+H                       repeat=true     { focus-column-left; }
+    Mod+L                       repeat=true     { focus-column-right; }
+    Mod+J                       repeat=true     { focus-window-or-workspace-down; }
+    Mod+K                       repeat=true     { focus-window-or-workspace-up; }
+    Mod+G                       repeat=true     { focus-window-previous; }
+    Mod+Bracketleft             repeat=false    { focus-column-first; }
+    Mod+Bracketright            repeat=false    { focus-column-last; }
+    Mod+Semicolon               repeat=true     { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+N                 repeat=false    { spawn "./scripts/niri/next_empty_workspace.sh";}
+
+    Mod+Shift+H                 repeat=true     { move-column-left; }
+    Mod+Shift+L                 repeat=true     { move-column-right; }
+    mod+Shift+J                 repeat=true     { move-window-down-or-to-workspace-down; }
+    mod+Shift+K                 repeat=true     { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Bracketright      repeat=false    { move-column-to-last; }
+    Mod+Shift+Bracketleft       repeat=false    { move-column-to-first; }
+    Mod+Shift+D                 repeat=false    { move-workspace-down; }
+    Mod+Shift+U                 repeat=false    { move-workspace-up; }
+
+    Mod+Alt+H                  repeat=true     { set-column-width "-2.5%"; }
+    Mod+Alt+L                  repeat=true     { set-column-width "+2.5%"; }
+    Mod+Alt+K                  repeat=true     { set-window-height "-3%"; }
+    Mod+Alt+J                  repeat=true     { set-window-height "+3%"; }
+
+    Mod+Left                    repeat=true     { focus-column-left; }
+    Mod+Right                   repeat=true     { focus-column-right; }
+    Mod+Down                    repeat=true     { focus-window-or-workspace-down; }
+    Mod+Up                      repeat=true     { focus-window-or-workspace-up; }
+
+    Mod+1                       repeat=false    { focus-workspace 1; }
+    Mod+2                       repeat=false    { focus-workspace 2; }
+    Mod+3                       repeat=false    { focus-workspace 3; }
+    Mod+4                       repeat=false    { focus-workspace 4; }
+    Mod+5                       repeat=false    { focus-workspace 5; }
+    Mod+6                       repeat=false    { focus-workspace 6; }
+    Mod+7                       repeat=false    { focus-workspace 7; }
+    Mod+8                       repeat=false    { focus-workspace 8; }
+    Mod+9                       repeat=false    { focus-workspace 9; }
+    Mod+0                       repeat=false    { focus-workspace 10; }
+    Mod+Shift+1                 repeat=false    { move-window-to-workspace 1; }
+    Mod+Shift+2                 repeat=false    { move-window-to-workspace 2; }
+    Mod+Shift+3                 repeat=false    { move-window-to-workspace 3; }
+    Mod+Shift+4                 repeat=false    { move-window-to-workspace 4; }
+    Mod+Shift+5                 repeat=false    { move-window-to-workspace 5; }
+    Mod+Shift+6                 repeat=false    { move-window-to-workspace 6; }
+    Mod+Shift+7                 repeat=false    { move-window-to-workspace 7; }
+    Mod+Shift+8                 repeat=false    { move-window-to-workspace 8; }
+    Mod+Shift+9                 repeat=false    { move-window-to-workspace 9; }
+    Mod+Shift+0                 repeat=false    { move-window-to-workspace 10; }
+
+    // Example volume keys mappings for PipeWire & WirePlumber.
+    XF86AudioRaiseVolume        { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }
+    SHIFT+F7                    { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05"; }
+    XF86AudioLowerVolume        { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-"; }
+    SHIFT+F8                    { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "1"; }
+    XF86MonBrightnessDown       { spawn "brightnessctl" "set" "5%-"; }
+    SHIFT+F2                    { spawn "brightnessctl" "set" "2"; }
+    XF86MonBrightnessUp         { spawn "brightnessctl" "set" "5%+"; }
+    SHIFT+F3                    { spawn "brightnessctl" "set" "100%"; }
+
+
+    // temp binds
+    Mod+M                       repeat=false    { spawn "~/scripts/niri/toggle_touchpad.sh"; }
+
+    // cwazy binds
+    Mod+O                       repeat=false    { spawn "sh" "-c" "pkill slurp || grim -g \"$(slurp)\" /tmp/tesseract_temp.png && tesseract /tmp/tesseract_temp.png /tmp/tesseract_temp_output -l eng && cat /tmp/tesseract_temp_output.txt | wl-copy && notify-send \"Tesseract\" \".  successfully copied to clipboard  .\""; }
+    Mod+Shift+O                 repeat=false    { spawn "sh" "-c" "pkill slurp || grim -g \"$(slurp)\" /tmp/tesseract_temp.png && tesseract /tmp/tesseract_temp.png /tmp/tesseract_temp_output -l eng && cat /tmp/tesseract_temp_output.txt | wl-copy && notify-send \"OCR to TTS\" \".  processing please wait  .\" && wl-paste | piper-tts --model $HOME/.local/en_US-hfc_female-medium.onnx --output_file /tmp/temp_piper_audio.wav && notify-send \"Playing\" \"selected entry from clipboard\" && mpv /tmp/temp_piper_audio.wav"; }
+
+}
+
+// switch-events {
+//     lid-close { spawn "systemctl" "suspend"; }
+//     lid-open { spawn "notify-send" "Welcome Back Sir"; }
+// }
